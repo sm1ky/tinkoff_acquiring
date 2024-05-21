@@ -5,7 +5,7 @@ async def main():
     client = TinkoffAcquiringAPIClient('your_terminal_key', 'your_secret')
     try:
         # Creating a payment
-        # Be careful. You must enter the amount in kopecks. 100 - 1 RUB, 10000 - 100 RUB. And so on
+        # Amount in float!
         response = await client.init_payment(
             amount=150.00,
             order_id='use_random_order_id',
