@@ -1,4 +1,4 @@
-import aiohttp
+import httpx
 import hashlib
 import logging
 
@@ -15,18 +15,18 @@ class TinkoffAcquiringAPIClient:
         logging.basicConfig(level=logging.INFO)
 
     async def send_request(self, endpoint, params):
-        async with aiohttp.ClientSession() as session:
+        async with httpx.AsyncClient() as client:
             params['TerminalKey'] = self.terminal_key
             params['Token'] = self.generate_token(params)
 
-            async with session.post(self.API_ENDPOINT + endpoint, json=params) as response:
-                response_data = await response.json()
-                self.logger.info(f"Response data: {response_data}")
-                if response.status != 200 or not response_data.get('Success'):
-                    error_message = response_data.get('Message', 'Unknown error')
-                    self.logger.error(f'API request failed: {error_message}')
-                    raise TinkoffAPIException(error_message)
-                return response_data
+            response = await client.post(self.API_ENDPOINT + endpoint, json=params)
+            response_data = response.json()
+            self.logger.info(f"Response data: {response_data}")
+            if response.status_code != 200 or not response_data.get('Success'):
+                error_message = response_data.get('Message', 'Unknown error')
+                self.logger.error(f'API request failed: {error_message}')
+                raise TinkoffAPIException(error_message)
+            return response_data
 
     def generate_token(self, params):
         ignore_keys = ['Shops', 'Receipt', 'Data']
@@ -65,4 +65,3 @@ class TinkoffAcquiringAPIClient:
     async def cancel_payment(self, payment_id):
         params = {'PaymentId': payment_id}
         return await self.send_request('Cancel', params)
-

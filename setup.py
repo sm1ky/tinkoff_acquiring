@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="tinkoff_acquiring",
-    version="0.1.2",
+    version="0.1.3",
     packages=find_packages(),
     install_requires=[
-        "aiohttp",
+        "httpx",
     ],
     author="Artem",
     author_email="support@sm1ky.com",
