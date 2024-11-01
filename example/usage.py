@@ -10,6 +10,7 @@ async def main():
             amount=150.00,
             order_id='use_random_order_id',
             description='Payment for order 12345',
+            email="google.com"
         )
         payment_id = response['PaymentId']
         print(f"Follow the link to complete the payment: {response['PaymentURL']}")
