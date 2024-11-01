@@ -39,12 +39,15 @@ class TinkoffAcquiringAPIClient:
         token_str = ''.join(str(value) for _, value in sorted_params)
         return hashlib.sha256(token_str.encode('utf-8')).hexdigest()
 
-    async def init_payment(self, amount: float, order_id: any, description: any, receipt=None, success_url: str = None, fail_url: str = None):
-        # Tinkoff API expects amount in kopecks, hence multiplying by 100
+    async def init_payment(self, amount: float, order_id: any, description: any, receipt=None, success_url: str = None, fail_url: str = None, email: str = "example@google.com"):
+        # Tinkoff API expects amount in full, hence multiplying by 100
         params = {
-            'Amount': int(amount * 100),  # Ensure the amount is an integer
+            'Amount': int(amount * 100),  
             'OrderId': order_id,
             'Description': description,
+            'DATA': {  
+                "Email": email
+            }
         }
         if success_url:
             params['SuccessURL'] = success_url
