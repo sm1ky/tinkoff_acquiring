@@ -2,6 +2,11 @@
 
 A Python client for Tinkoff Acquiring API.
 
+### LATEST CHECHED VERSION 
+```sh
+pip install tinkoff-acquiring==0.1.0
+```
+
 ## Installation
 
 ```sh
