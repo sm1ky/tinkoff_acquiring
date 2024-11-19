@@ -29,7 +29,7 @@ class TinkoffAcquiringAPIClient:
             return response_data
 
     def generate_token(self, params):
-        ignore_keys = ['Shops', 'Receipt', 'Data']
+        ignore_keys = ['Shops', 'Receipt', 'Data', 'DATA']
         for key in ignore_keys:
             if key in params:
                 del params[key]
